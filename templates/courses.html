@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>All Courses</h1>
+    <form action="{{ url_for('search_course') }}" method="POST" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="search_query" class="form-control" placeholder="Search for a course...">
+            <button type="submit" class="btn btn-outline-secondary">Search</button>
+        </div>
+    </form>
+    <a href="{{ url_for('add_course') }}" class="btn btn-primary mb-3">Add Course</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Course Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+                <tr>
+                    <td>{{ course[0] }}</td>
+                    <td>{{ course[1] }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_course', id=course[0]) }}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{{ url_for('delete_course', id=course[0]) }}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

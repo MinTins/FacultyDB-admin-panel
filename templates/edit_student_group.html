@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Edit Student Group</h1>
+    <form action="{{ url_for('edit_student_group', id=student_group[0]) }}" method="POST">
+        <div class="form-group">
+            <label for="student_id">Student:</label>
+            <select class="form-control" id="student_id" name="student_id">
+                {% for student in students %}
+                    {% if student[0] == student_group[1] %}
+                        <option value="{{ student[0] }}" selected>{{ student[1] }}</option>
+                    {% else %}
+                        <option value="{{ student[0] }}">{{ student[1] }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="group_id">Group:</label>
+            <select class="form-control" id="group_id" name="group_id">
+                {% for group in groups %}
+                    {% if group[0] == student_group[2] %}
+                        <option value="{{ group[0] }}" selected>{{ group[1] }}</option>
+                    {% else %}
+                        <option value="{{ group[0] }}">{{ group[1] }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+{% endblock %}

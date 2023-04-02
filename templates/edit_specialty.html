@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Edit Specialty</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="specialty_name">Specialty Name:</label>
+            <input type="text" class="form-control" id="specialty_name" name="specialty_name" value="{{ specialty[1] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="faculty_id">Faculty:</label>
+            <select class="form-control" id="faculty_id" name="faculty_id" required>
+                {% for faculty in faculties %}
+                    {% if faculty[0] == specialty[2] %}
+                        <option value="{{ faculty[0] }}" selected>{{ faculty[1] }}</option>
+                    {% else %}
+                        <option value="{{ faculty[0] }}">{{ faculty[1] }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+{% endblock %}

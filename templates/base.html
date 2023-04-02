@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        body {
+            background: linear-gradient(0deg, rgba(35,0,65,0.7), rgba(255,255,255,0.5)), url(static/png/background.png) no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Montserrat', sans-serif;
+            background-attachment: fixed;
+            background-color: rgba(255, 255, 255, 0.8);
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        nav li {
+            margin: 0 10px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #fff;
+            color: #333;
+        }
+
+       input {
+          border: none;
+          border-radius: 5px;
+          padding: 10px;
+          font-size: 16px;
+          background-color: #f2f2f2;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+          transition: all 0.3s ease;
+        }
+
+        input:focus {
+          outline: none;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+          background-color: #fff;
+        }
+
+
+        form {
+          margin-bottom: 20px;
+
+        }
+ 
+
+        form input,
+        form select,
+        form textarea {
+            margin-bottom: 10px;
+        }
+
+        .content {
+            margin: 50px auto;
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #333;
+        }
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        a,button {
+            color: #333;
+            text-decoration: none;
+            border: 2px solid #333;
+            border-radius: 5px;
+            padding: 5px 10px;
+            transition: all 0.3s ease;
+        }
+        a:hover,
+        button:hover{
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+    <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('faculties') }}">Faculties</a></li>
+        <li><a href="{{ url_for('courses') }}">Courses</a></li>
+        <li><a href="{{ url_for('specialties') }}">Specialties</a></li>
+        <li><a href="{{ url_for('groups') }}">Groups</a></li>
+        <li><a href="{{ url_for('students') }}">Students</a></li>
+        <li><a href="{{ url_for('student_groups') }}">Student Groups</a></li>
+    </ul>
+    </nav>
+    <div class="content">
+{% block content %}{% endblock %}
+    </div>
+</body>
+</html>

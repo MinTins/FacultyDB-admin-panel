@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Add Faculty</h1>
+    <form action="{{ url_for('add_faculty') }}" method="POST">
+        <div class="form-group">
+            <label for="faculty_name">Faculty Name</label>
+            <input type="text" class="form-control" id="faculty_name" name="faculty_name">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Faculty</button>
+    </form>
+{% endblock %}

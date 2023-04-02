@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Student Groups</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <form action="{{ url_for('search_student_group') }}" method="POST">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search for student group" name="search_query">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <a href="{{ url_for('add_student_group') }}" class="btn btn-primary float-right">Add Student Group</a>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Group ID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student_group in student_groups %}
+                <tr>
+                    <td>{{ student_group[1] }}</td>
+                    <td>{{ student_group[2] }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_student_group', id=student_group[0]) }}" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="{{ url_for('delete_student_group', id=student_group[0]) }}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
