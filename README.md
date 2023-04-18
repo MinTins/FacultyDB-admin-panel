@@ -1,7 +1,9 @@
 # FacultyDB-admin-panel
 Python(Flask) + MySQL
 
-First Start docker:
+
+## Docker
+First Start:
 ```docker-compose up --build```
 (ignore error and check docker container)
 
