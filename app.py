@@ -5,9 +5,9 @@ app = Flask(__name__)
 
 # Connect to the database
 conn = pymysql.connect(
-    host="localhost",
+    host="db",
     user="root",
-    password="MinTnt123!",
+    password="qwerty123",
     database="facdb"
 )
 
@@ -132,7 +132,9 @@ def search_course():
 @app.route('/specialties')
 def specialties():
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM specialties")
+    cursor.execute("""SELECT s.specialty_id, s.specialty_name, f.faculty_name
+        FROM specialties s
+        JOIN faculties f ON s.faculty_id = f.faculty_id;""")
     specialties = cursor.fetchall()
     return render_template('specialties.html', specialties=specialties)
 
@@ -183,7 +185,9 @@ def search_specialty():
     if request.method == 'POST':
         search_query = request.form['search_query']
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM specialties WHERE specialty_name LIKE %s", ('%' + search_query + '%'))
+        cursor.execute("""SELECT s.specialty_id, s.specialty_name, f.faculty_name
+            FROM specialties s
+            JOIN faculties f ON s.faculty_id = f.faculty_id WHERE s.specialty_name LIKE %s OR f.faculty_name LIKE %s""", ('%' + search_query + '%', '%' + search_query + '%'))
         specialties = cursor.fetchall()
         return render_template('specialties.html', specialties=specialties)
     else:
@@ -193,7 +197,10 @@ def search_specialty():
 @app.route('/groups')
 def groups():
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM groups_list")
+    cursor.execute("""SELECT gl.group_id, gl.group_name, c.course_name, s.specialty_name
+        FROM groups_list gl
+        JOIN courses c ON gl.course_id = c.course_id
+        JOIN specialties s ON gl.specialty_id = s.specialty_id;""")
     groups = cursor.fetchall()
     return render_template('groups.html', groups=groups)
 
@@ -250,7 +257,10 @@ def search_group():
     if request.method == 'POST':
         search_query = request.form['search_query']
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM groups_list WHERE group_name LIKE %s", ('%' + search_query + '%'))
+        cursor.execute("""SELECT gl.group_id, gl.group_name, c.course_name, s.specialty_name
+            FROM groups_list gl
+            JOIN courses c ON gl.course_id = c.course_id
+            JOIN specialties s ON gl.specialty_id = s.specialty_id WHERE gl.group_name LIKE %s""", ('%' + search_query + '%'))
         groups = cursor.fetchall()
         return render_template('groups.html', groups=groups)
     else:
@@ -320,7 +330,10 @@ def search_faculty():
 @app.route('/student_groups')
 def student_groups():
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM student_group")
+    cursor.execute("""SELECT sg.id, st.name, gl.group_name
+        FROM student_group sg
+        JOIN students st ON sg.student_id = st.student_id
+        JOIN groups_list gl ON sg.group_id = gl.group_id;""")
     student_groups = cursor.fetchall()
     return render_template('student_groups.html', student_groups=student_groups)
 
@@ -379,7 +392,10 @@ def search_student_group():
     if request.method == 'POST':
         search_query = request.form['search_query']
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM student_group WHERE student_id LIKE %s OR group_id LIKE %s", ('%' + search_query + '%', '%' + search_query + '%'))
+        cursor.execute("""SELECT sg.id, st.name, gl.group_name
+            FROM student_group sg
+            JOIN students st ON sg.student_id = st.student_id
+            JOIN groups_list gl ON sg.group_id = gl.group_id WHERE st.name LIKE %s OR gl.group_name LIKE %s""", ('%' + search_query + '%', '%' + search_query + '%'))
         student_groups = cursor.fetchall()
         return render_template('student_groups.html', student_groups=student_groups)
     else:
@@ -388,4 +404,4 @@ def search_student_group():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5000)
