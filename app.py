@@ -20,7 +20,7 @@ def home():
 @app.route('/students')
 def students():
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM students")
+    cursor.execute("SELECT students.*, groups_list.group_name FROM students LEFT JOIN student_group ON students.student_id = student_group.student_id LEFT JOIN groups_list ON student_group.group_id = groups_list.group_id")
     students = cursor.fetchall()
     return render_template('students.html', students=students)
 
@@ -58,6 +58,7 @@ def edit_student(id):
 @app.route('/students/delete/<int:id>')
 def delete_student(id):
     cursor = conn.cursor()
+    cursor.execute("DELETE FROM student_group WHERE student_id=%s", id)
     cursor.execute("DELETE FROM students WHERE student_id=%s", id)
     conn.commit()
     return redirect(url_for('students'))
@@ -247,6 +248,7 @@ def edit_group(id):
 @app.route('/groups/delete/<int:id>')
 def delete_group(id):
     cursor = conn.cursor()
+    cursor.execute("DELETE FROM student_group WHERE group_id=%s", id)
     cursor.execute("DELETE FROM groups_list WHERE group_id=%s", id)
     conn.commit()
     return redirect(url_for('groups'))
